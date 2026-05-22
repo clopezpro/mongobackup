@@ -1,0 +1,65 @@
+# ==========================================
+# SEGURIDAD - NO SUBIR DATOS SENSIBLES
+# SECURITY - DO NOT COMMIT SENSITIVE DATA
+# ==========================================
+
+# Configuración local (usa docker-compose.example.yml como plantilla)
+# Local configuration (use docker-compose.example.yml as template)
+.env
+docker-compose.yml
+docker-compose.override.yml
+docker-compose.local.yml
+
+# 🔐 SECRETOS - NUNCA COMMITEAR
+# 🔐 SECRETS - NEVER COMMIT
+secrets/backup_username
+secrets/backup_password
+secrets/backup_host
+secrets/backup_databases
+secrets/ssh_private_key
+secrets/backup_ca_cert
+secrets/*.key
+secrets/*.pem
+!secrets/README.example.md
+
+# 📦 BACKUPS GENERADOS
+# 📦 GENERATED BACKUPS
+backups/
+*.tar.gz
+*.tar
+
+# 📝 LOGS Y TEMPORALES
+# 📝 LOGS AND TEMPORARY FILES
+*.log
+logs/
+*.tmp
+tmp/
+temp/
+
+# 🐳 DOCKER
+*.dockerfile
+.dockerignore
+
+# 🐍 PYTHON
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 📄 IDE / EDITOR
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 🖥️ OS
+.DS_Store
+Thumbs.db
+
+# 🔐 CLAVES (en caso de accidente)
+# 🔐 KEYS (in case of accident)
+*.key
+*.pem
+id_rsa*
+!*.pub.example

@@ -1,0 +1,53 @@
+version: '3.7'
+secrets:
+  backup_username:
+    file: ./secrets/backup_username
+  backup_password:
+    file: ./secrets/backup_password
+  backup_host:
+    file: ./secrets/backup_host
+  backup_databases:
+    file: ./secrets/backup_databases
+  ssh_private_key:
+    file: ./secrets/ssh_private_key
+  backup_ca_cert:
+    file: ./secrets/backup_ca_cert
+services:
+
+  backup:
+    image: clopezpro/mongo-backup:latest
+    container_name: mongodb-backup
+    volumes:
+      - ./backups:/backups
+    environment:
+      - TZ=America/Guayaquil
+      - BACKUP_PORT=27018
+      - LOCAL_PORT=27019
+      - BACKUP_AUTHENTICATIONDATABASE=admin
+      - BACKUP_HOST_FILE=/run/secrets/backup_host
+      - BACKUP_USERNAME_FILE=/run/secrets/backup_username
+      - BACKUP_PASSWORD_FILE=/run/secrets/backup_password
+      - BACKUP_DATABASES_FILE=/run/secrets/backup_databases
+      - BACKUP_CA_CERT_FILE=/run/secrets/backup_ca_cert
+      - SSH_PRIVATE_KEY_FILE=/run/secrets/ssh_private_key
+      - SSH_USER=user_ssh_for_backup
+      - SSH_HOST=ejemplo.tu-servidor.com
+      - SSH_PORT=22
+      - CRON_TIME=0 3 * * *
+      - MAX_BACKUPS=10
+      - INIT_BACKUP=1
+    secrets:
+      - backup_username
+      - backup_password
+      - backup_host
+      - backup_databases
+      - ssh_private_key
+      - backup_ca_cert
+    restart: unless-stopped
+
+    logging:
+       driver: "json-file"
+       options:
+       max-size: "100m"
+       max-file: "3"
+
