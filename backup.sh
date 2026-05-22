@@ -8,9 +8,11 @@ read_var() {
     if [[ -n ${!var_file} && -f ${!var_file} ]]; then
         # Para BACKUP_DATABASES, preservar saltos de línea; para otros, eliminarlos
         if [[ "${var_name}" == "BACKUP_DATABASES" ]]; then
-            cat "${!var_file}"
+            # Eliminar solo los saltos de línea al final, preservar los intermedios
+            cat "${!var_file}" | sed -e 's/[[:space:]]*$//'
         else
-            cat "${!var_file}" | tr -d '\n'
+            # Eliminar todos los caracteres de fin de línea (\r\n y \n)
+            cat "${!var_file}" | tr -d '\r\n'
         fi
     else
         echo "${!var_name}"
