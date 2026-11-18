@@ -232,7 +232,7 @@ docker-compose exec backup \
 docker pull clopezpro/mongo-backup:latest
 
 # Versión específica
-docker pull clopezpro/mongo-backup:1.8
+docker pull clopezpro/mongo-backup:1.9
 
 # Recrear contenedor con nueva imagen
 docker-compose up -d --force-recreate

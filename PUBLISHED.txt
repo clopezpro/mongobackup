@@ -7,6 +7,8 @@
 
 Repository:  https://hub.docker.com/r/clopezpro/mongo-backup
 Tags:        • clopezpro/mongo-backup:latest
+             • clopezpro/mongo-backup:1.9
+             • clopezpro/mongo-backup:1.8
              • clopezpro/mongo-backup:1.0
 Visibilidad: 🌍 PÚBLICA (accesible para todos)
 Tamaño:      1.06 GB
@@ -133,7 +135,7 @@ Ver información local:
 Usar en docker-compose:
    
    image: clopezpro/mongo-backup              # latest
-   image: clopezpro/mongo-backup:1.0          # v1.0
+   image: clopezpro/mongo-backup:1.9          # v1.9
    image: clopezpro/mongo-backup:latest       # versión más reciente
 
 

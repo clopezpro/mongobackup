@@ -1,7 +1,7 @@
 # 🐳 MongoDB Backup - Docker Automated Backup Service
 
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-clopezpro%2Fmongo--backup-blue?logo=docker)](https://hub.docker.com/r/clopezpro/mongo-backup)
-[![Latest Version](https://img.shields.io/badge/Version-1.8-brightgreen)](https://hub.docker.com/r/clopezpro/mongo-backup/tags)
+[![Latest Version](https://img.shields.io/badge/Version-1.9-brightgreen)](https://hub.docker.com/r/clopezpro/mongo-backup/tags)
 [![License](https://img.shields.io/badge/License-MIT-green)](#license)
 
 Servicio Docker que realiza backups automáticos de MongoDB con:
@@ -206,7 +206,7 @@ Ver más en [**QUICK_START.md - Troubleshooting**](./QUICK_START.md#-solución-d
 | Tag | Descripción |
 |-----|-------------|
 | `clopezpro/mongo-backup:latest` | Última versión estable |
-| `clopezpro/mongo-backup:1.8` | Versión específica |
+| `clopezpro/mongo-backup:1.9` | Versión específica |
 
 ```bash
 docker pull clopezpro/mongo-backup:latest

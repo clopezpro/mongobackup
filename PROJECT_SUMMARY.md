@@ -1,4 +1,4 @@
-# 🎉 MongoDB Backup - Proyecto Completo v1.8
+# 🎉 MongoDB Backup - Proyecto Completo v1.9
 
 ## 📊 Estado Final del Proyecto
 
@@ -16,7 +16,7 @@
 **Dockerización:**
 - ✅ Dockerfile con mongo:latest + SSH + cron
 - ✅ docker-compose.yml con Docker Secrets
-- ✅ Imagen publicada en Docker Hub (clopezpro/mongo-backup:latest y v1.8)
+- ✅ Imagen publicada en Docker Hub (clopezpro/mongo-backup:latest y v1.9)
 - ✅ Restart policy automático
 
 **Documentación para GitHub:**
@@ -118,8 +118,8 @@ mongo-backup/
 │   └── *.log                   # Logs
 │
 └── 🐳 DOCKER HUB
-    └── clopezpro/mongo-backup:1.8
-        sha256:c2cda7cd...
+    └── clopezpro/mongo-backup:1.9
+        sha256:19211e27...
 ```
 
 ---

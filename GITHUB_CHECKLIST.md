@@ -2,10 +2,10 @@
 
 ## 📋 Files Ready for GitHub
 
-- [x] **backup.sh** - Main backup script (v1.8 with symlinks)
+- [x] **backup.sh** - Main backup script (v1.9 with symlinks)
 - [x] **entrypoint.sh** - Container startup
 - [x] **Dockerfile** - Image build
-- [x] **docker-compose.example.yml** - Template with full comments (NO secrets)
+- [x] **.dockerignore** - Excluye secrets/, backups/ y .git/ del contexto de build
 - [x] **.gitignore** - Protects secrets, backups, logs (docker-compose.yml excluded)
 - [x] **setup.sh** - Interactive configuration script
 - [x] **QUICK_START.md** - Quick start guide (ES/EN)
@@ -26,7 +26,7 @@
 ## 🐳 Docker Hub Verification
 
 - [x] Image published: clopezpro/mongo-backup:latest
-- [x] Image version: clopezpro/mongo-backup:1.8
+- [x] Image version: clopezpro/mongo-backup:1.9
 - [x] docker-compose.example.yml points to correct image
 - [x] README references correct Docker Hub URL
 
@@ -46,7 +46,7 @@
 - [ ] Create GitHub repo and push all files
 - [ ] Verify .gitignore is working (no secrets exposed)
 - [ ] Add GitHub topics: docker, mongodb, backup, automation, ssh
-- [ ] Create GitHub Release v1.8
+- [ ] Create GitHub Release v1.9
 - [ ] Pin QUICK_START.md in repo description
 - [ ] Update GitHub profile README with project link
 
@@ -61,7 +61,7 @@ git add .
 git status  # Should NOT show docker-compose.yml or secrets/
 
 # Commit initial version
-git commit -m "Initial commit: MongoDB Backup v1.8 with SSH tunneling, compression, and Docker support"
+git commit -m "Initial commit: MongoDB Backup v1.9 with SSH tunneling, compression, and Docker support"
 
 # Add remote and push
 git remote add origin https://github.com/clopezpro/mongo-backup.git
@@ -69,8 +69,8 @@ git branch -M main
 git push -u origin main
 
 # Create release tag
-git tag -a v1.8 -m "MongoDB Backup v1.8: SSH tunneling, symlinks, auto-cleanup"
-git push origin v1.8
+git tag -a v1.9 -m "MongoDB Backup v1.9: SSH tunneling, symlinks, auto-cleanup"
+git push origin v1.9
 ```
 
 ## ✨ Features Highlighted in GitHub
@@ -88,7 +88,7 @@ git push origin v1.8
 
 ## 🎯 Success Criteria
 
-- [x] All code is production-ready (v1.8 tested)
+- [x] All code is production-ready (v1.9 tested)
 - [x] No sensitive data exposed
 - [x] Easy onboarding for new users
 - [x] Clear documentation
