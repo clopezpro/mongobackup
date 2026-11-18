@@ -45,8 +45,8 @@ cat ~/.ssh/id_rsa > secrets/ssh_private_key
 ### 3. Configurar docker-compose
 
 ```bash
-# Usar la plantilla de ejemplo
-cp docker-compose.example.yml docker-compose.yml
+# Usar el bloque docker-compose.yml de README_DOCKER_HUB.md
+# (seccion "Uso rapido") -> archivo docker-compose.yml
 
 # Editar con tus valores
 nano docker-compose.yml  # Cambiar SSH_HOST, SSH_PORT, TZ, CRON_TIME
