@@ -21,7 +21,7 @@ fi
 
 # Crear script cron que ejecuta el backup
 cat > /etc/cron.d/backup-mongodb <<EOF
-${CRON_TIME} /app/backup-mongodb >> ${BACKUP_DIRECTORY}/cron.log 2>&1
+${CRON_TIME} root /app/backup-mongodb >> ${BACKUP_DIRECTORY}/cron.log 2>&1
 EOF
 
 chmod 0644 /etc/cron.d/backup-mongodb
