@@ -18,6 +18,12 @@ secrets/backup_host
 secrets/backup_databases
 secrets/ssh_private_key
 secrets/backup_ca_cert
+secrets/s3_bucket
+secrets/s3_endpoint
+secrets/s3_access_key_id
+secrets/s3_secret_access_key
+secrets/rclone.conf
+secrets/*.conf
 secrets/*.key
 secrets/*.pem
 !secrets/README.example.md

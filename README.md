@@ -88,6 +88,72 @@ docker-compose exec backup /app/backup-mongodb
 | `backup_databases` | Bases de datos a respaldar |
 | `ssh_private_key` | Clave SSH en Base64 (opcional) |
 
+
+## ☁️ Subida a Cloudflare R2 (o cualquier S3-compatible)
+
+Desde la **v1.9** la imagen incluye `rclone` y sabe subir los respaldos a un
+almacenamiento compatible con S3: **Cloudflare R2**, AWS S3, Backblaze B2,
+MinIO o Wasabi.
+
+### 1. Crear el token en Cloudflare R2
+`Cloudflare > R2 > Manage R2 Tokens > Create API Token` -> **Object Read & Write**
+sobre el bucket que quieras usar. Anota el *Access Key ID*, el *Secret Access Key*
+y el *Account ID*.
+
+### 2. Configurar los secrets
+```bash
+./create-secrets.sh          # crea los archivos de ejemplo
+echo "mi-bucket"              > secrets/s3_bucket
+echo "https://<ACCOUNT_ID>.r2.cloudflarestorage.com" > secrets/s3_endpoint
+echo "<ACCESS_KEY_ID>"        > secrets/s3_access_key_id
+echo "<SECRET_ACCESS_KEY>"    > secrets/s3_secret_access_key
+```
+
+### 3. Montarlos y activarlos
+```yaml
+services:
+  mongodb-backup:
+    image: clopezpro/mongo-backup:latest
+    environment:
+      S3_BUCKET_FILE: /run/secrets/s3_bucket
+      S3_ENDPOINT_FILE: /run/secrets/s3_endpoint
+      S3_ACCESS_KEY_ID_FILE: /run/secrets/s3_access_key_id
+      S3_SECRET_ACCESS_KEY_FILE: /run/secrets/s3_secret_access_key
+      S3_PREFIX: backups
+      S3_PROVIDER: Cloudflare
+      S3_MAX_AGE_DAYS: "30"      # retencion en el bucket (0 = sin retencion)
+      UPLOAD_CRON_TIME: "0 */2 * * *"   # cada cuanto se sube
+    volumes:
+      - ./backups:/backups
+      - ./secrets/s3_bucket:/run/secrets/s3_bucket:ro
+      - ./secrets/s3_endpoint:/run/secrets/s3_endpoint:ro
+      - ./secrets/s3_access_key_id:/run/secrets/s3_access_key_id:ro
+      - ./secrets/s3_secret_access_key:/run/secrets/s3_secret_access_key:ro
+```
+
+### Variables de la subida
+
+| Variable | Por defecto | Descripcion |
+|---|---|---|
+| `S3_BUCKET` | - | Bucket de destino (obligatorio para subir) |
+| `S3_PREFIX` | `backups` | Prefijo dentro del bucket |
+| `S3_ENDPOINT` | - | Endpoint S3-compatible (R2: `https://<id>.r2.cloudflarestorage.com`) |
+| `S3_ACCESS_KEY_ID` | - | Access key |
+| `S3_SECRET_ACCESS_KEY` | - | Secret key |
+| `S3_REGION` | `auto` | Region |
+| `S3_PROVIDER` | `Other` | `Cloudflare`, `AWS` u `Other` |
+| `S3_MAX_AGE_DAYS` | `0` | Dias de retencion en el bucket (0 = sin retencion) |
+| `RCLONE_CONFIG` | `/etc/rclone/rclone.conf` | Configuracion rclone existente (tiene prioridad) |
+| `UPLOAD_CRON_TIME` | `0 */2 * * *` | Cada cuanto se sube lo que hay en `/backups` |
+| `UPLOAD_AFTER_BACKUP` | `1` | Subir justo despues de cada backup |
+
+> Todas las variables admiten el sufijo `_FILE` para leerlas de un archivo de
+> secret, que es la forma recomendada: las credenciales nunca pasan por
+> variables de entorno ni por el historial del shell.
+>
+> Si defines `S3_BUCKET` (o montas un `rclone.conf`) la subida queda
+> automatizada: se ejecuta al final de cada backup y ademas de forma periodica.
+
 ## Ejemplos de configuración
 
 ### Backup local a las 3 AM, máximo 10 backups

@@ -139,6 +139,25 @@ ls -la ./backups/
 | `BACKUP_DIRECTORY` | Directorio donde guardar backups | `/backups` | `/backups` |
 | `TZ` | Zona horaria | `America/Guayaquil` | `UTC` |
 
+
+### Variables de subida a S3 / Cloudflare R2 (opcional)
+
+| Variable | Por defecto | Descripcion |
+|---|---|---|
+| `S3_BUCKET` | - | Bucket de destino. Si se define, se habilita la subida automatica |
+| `S3_PREFIX` | `backups` | Prefijo dentro del bucket |
+| `S3_ENDPOINT` | - | Endpoint S3-compatible (R2: `https://<ACCOUNT_ID>.r2.cloudflarestorage.com`) |
+| `S3_ACCESS_KEY_ID` | - | Access key |
+| `S3_SECRET_ACCESS_KEY` | - | Secret key |
+| `S3_REGION` | `auto` | Region |
+| `S3_PROVIDER` | `Other` | `Cloudflare`, `AWS` u `Other` |
+| `S3_MAX_AGE_DAYS` | `0` | Retencion en el bucket (0 = sin retencion) |
+| `RCLONE_CONFIG` | `/etc/rclone/rclone.conf` | Configuracion rclone existente (prioridad sobre las variables) |
+| `UPLOAD_CRON_TIME` | `0 */2 * * *` | Cada cuanto se sube el contenido de `/backups` |
+| `UPLOAD_AFTER_BACKUP` | `1` | Subir justo despues de cada backup |
+
+Todas aceptan el sufijo `_FILE` (por ejemplo `S3_BUCKET_FILE=/run/secrets/s3_bucket`).
+
 ### Notas sobre las variables
 
 - **`*_FILE`**: Apuntan a archivos dentro del contenedor (generalmente en `/run/secrets/`)

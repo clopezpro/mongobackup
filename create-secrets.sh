@@ -53,6 +53,37 @@ EOF
     echo "✅ Creado: backup_ca_cert.example (instrucciones - archivo OPCIONAL)"
 fi
 
+# --- Secretos de almacenamiento S3/R2 (OPCIONALES) --------------------------
+if [[ ! -f "${SECRETS_DIR}/s3_bucket" ]]; then
+    echo "mi-bucket" > "${SECRETS_DIR}/s3_bucket"
+    echo "✅ Creado: s3_bucket (valor: mi-bucket)"
+fi
+
+if [[ ! -f "${SECRETS_DIR}/s3_endpoint" ]]; then
+    cat > "${SECRETS_DIR}/s3_endpoint.example" <<EOF
+# Endpoint S3-compatible (OPCIONAL)
+#
+# Cloudflare R2:  https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+# Backblaze B2:   https://s3.<region>.backblazeb2.com
+# MinIO:          http://minio.local:9000
+#
+# Para AWS S3 nativo NO se define endpoint (usa el provider "AWS").
+# Para usar este archivo, renombralo a s3_endpoint y pon el valor real.
+EOF
+    chmod 644 "${SECRETS_DIR}/s3_endpoint.example"
+    echo "✅ Creado: s3_endpoint.example (instrucciones - archivo OPCIONAL)"
+fi
+
+if [[ ! -f "${SECRETS_DIR}/s3_access_key_id" ]]; then
+    echo "CAMBIAR_ESTA_CLAVE" > "${SECRETS_DIR}/s3_access_key_id"
+    echo "✅ Creado: s3_access_key_id (placeholder - CAMBIAR)"
+fi
+
+if [[ ! -f "${SECRETS_DIR}/s3_secret_access_key" ]]; then
+    echo "CAMBIAR_ESTA_CLAVE" > "${SECRETS_DIR}/s3_secret_access_key"
+    echo "✅ Creado: s3_secret_access_key (placeholder - CAMBIAR)"
+fi
+
 echo ""
 echo "⚠️  IMPORTANTE:"
 echo "   1. Edita los archivos en ${SECRETS_DIR}/ con tus credenciales reales"

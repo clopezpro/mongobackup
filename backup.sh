@@ -151,18 +151,32 @@ for i in "${BACKUP_DATABASE_ARRAY[@]}"; do
  /usr/bin/mongodump --version | tee ${OUTPUTDIR}/mongodump_version.txt
  
  # Debug: mostrar comando que se ejecutará
- echo "   🔧 Conectando a: 127.0.0.1:${LOCAL_PORT} → base de datos: ${i}"
+ if [[ ${SSH_TUNNEL_ENABLED} == true ]]; then
+     echo "   🔧 Conectando a: 127.0.0.1:${LOCAL_PORT} (túnel SSH) → base de datos: ${i}"
+ else
+     echo "   🔧 Conectando a: ${BACKUP_HOST}:${BACKUP_PORT} → base de datos: ${i}"
+ fi
  if [[ -n "${TLS_OPTIONS}" ]]; then
      echo "   🔒 Opciones SSL: ${TLS_OPTIONS}"
  fi
  
+ # Destino del dump: con túnel SSH se usa el puerto local reenviado,
+ # sin túnel se conecta directamente a BACKUP_HOST:BACKUP_PORT
+ if [[ ${SSH_TUNNEL_ENABLED} == true ]]; then
+     DUMP_HOST="127.0.0.1"
+     DUMP_PORT="${LOCAL_PORT}"
+ else
+     DUMP_HOST="${BACKUP_HOST}"
+     DUMP_PORT="${BACKUP_PORT}"
+ fi
+
  # Capturar error de mongodump en variable temporal
  MONGODUMP_OUTPUT=$(mktemp)
  /usr/bin/mongodump \
   --username="${BACKUP_USERNAME}" \
   --password="${BACKUP_PASSWORD}" \
-  --host="127.0.0.1" \
-  --port="${LOCAL_PORT}" \
+  --host="${DUMP_HOST}" \
+  --port="${DUMP_PORT}" \
   --db="${i}" \
   --authenticationDatabase="${BACKUP_AUTHENTICATIONDATABASE}" \
   ${TLS_OPTIONS} \
@@ -278,3 +292,17 @@ fi
 
 
 
+
+# ---------------------------------------------------------------------------
+# Subida a almacenamiento compatible con S3 (Cloudflare R2, AWS S3, ...)
+# Se ejecuta solo si hay un bucket configurado. Si la subida falla, el
+# respaldo local sigue intacto: no se aborta el backup por un fallo de red.
+# ---------------------------------------------------------------------------
+if [ -n "${S3_BUCKET:-${S3_BUCKET_FILE:-}}" ] || [ -f "${RCLONE_CONFIG:-/etc/rclone/rclone.conf}" ]; then
+    if [ -x /app/upload-s3.sh ]; then
+        echo "☁️  Subiendo los respaldos a S3/R2..."
+        /app/upload-s3.sh || echo "⚠️  La subida a S3/R2 falló (los respaldos locales están intactos)"
+    else
+        echo "⚠️  /app/upload-s3.sh no encontrado: se omite la subida"
+    fi
+fi
