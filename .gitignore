@@ -38,7 +38,10 @@ temp/
 
 # 🐳 DOCKER
 *.dockerfile
-.dockerignore
+# .dockerignore SI se versiona: es el archivo que evita que secrets/ y
+# backups/ entren al contexto de build de la imagen publicada.
+# .dockerignore IS tracked: it keeps secrets/ and backups/ out of the
+# build context of the published image.
 
 # 🐍 PYTHON
 __pycache__/

@@ -1,0 +1,67 @@
+# ==========================================
+# 🐳 CONTEXTO DE BUILD - NUNCA INCLUIR DATOS SENSIBLES
+# 🐳 BUILD CONTEXT - NEVER INCLUDE SENSITIVE DATA
+# ==========================================
+# El Dockerfile solo copia entrypoint.sh y backup.sh, pero sin este archivo
+# el daemon de Docker recibe TODO el directorio (incluidos secrets/ y
+# backups/) en el contexto de build.
+# The Dockerfile only copies entrypoint.sh and backup.sh, but without this
+# file the Docker daemon receives the whole directory (including secrets/
+# and backups/) as build context.
+
+# 🔐 SECRETOS - credenciales, claves SSH, certificados
+# 🔐 SECRETS - credentials, SSH keys, certificates
+secrets/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# 📦 BACKUPS GENERADOS (dump de MongoDB, tar.gz)
+# 📦 GENERATED BACKUPS (MongoDB dumps, tar.gz)
+backups/
+25082026/
+*.tar
+*.tar.gz
+*.gz
+*.archive
+
+# ⚙️ CONFIGURACION LOCAL (puede contener IPs, usuarios y puertos reales)
+# ⚙️ LOCAL CONFIG (may contain real IPs, users and ports)
+docker-compose.yml
+docker-compose.override.yml
+docker-compose.local.yml
+.env
+.env.*
+*.local.yml
+
+# 🔧 CONTROL DE VERSIONES (historial completo del repo)
+# 🔧 VERSION CONTROL (full repo history)
+.git/
+.gitignore
+.github/
+
+# 📝 DOCUMENTACION (no se usa en tiempo de ejecucion)
+# 📝 DOCUMENTATION (not used at runtime)
+*.md
+LICENSE
+
+# 📝 LOGS Y TEMPORALES
+# 📝 LOGS AND TEMPORARIES
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 🐍 IDIOMES
+# 🐍 LANGUAGES
+__pycache__/
+*.py[cod]
+*.so
