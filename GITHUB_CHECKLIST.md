@@ -27,13 +27,13 @@
 
 - [x] Image published: clopezpro/mongo-backup:latest
 - [x] Image version: clopezpro/mongo-backup:1.9
-- [x] docker-compose.example.yml points to correct image
+- [x] La imagen publicada apunta al tag correcto (clopezpro/mongo-backup)
 - [x] README references correct Docker Hub URL
 
 ## 📖 Documentation Verification
 
 - [x] QUICK_START.md has bilingual content (ES/EN)
-- [x] docker-compose.example.yml is thoroughly commented
+- [x] La configuracion local se documenta en QUICK_START.md y README_DOCKER_HUB.md
 - [x] setup.sh is executable and interactive
 - [x] README.GITHUB.md explains main features
 - [x] docker-compose.yml NOT tracked (users create their own)
