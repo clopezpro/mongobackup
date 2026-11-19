@@ -118,10 +118,19 @@ if [[ ${RC} -ne 0 ]]; then
     exit ${RC}
 fi
 
-# --- Retencion -------------------------------------------------------------
-if [[ "${MAX_AGE_DAYS}" -gt 0 ]]; then
+# --- Retencion (desactivada por defecto) -----------------------------------
+# IMPORTANTE: la retencion en el bucket debe gestionarse con las REGLAS DE
+# CICLO DE VIDA del propio R2 (Cloudflare > R2 > bucket > Settings > Object
+# lifecycle > "Expire objects after N days"). Con "rclone delete --max-age"
+# algunos backends S3 (R2 entre ellos) no siempre reportan la fecha de
+# modificacion, y rclone puede acabar borrando archivos recien subidos.
+# Por eso el borrado queda desactivado salvo que se pida de forma explicita
+# con S3_ALLOW_RETENTION_DELETE=1.
+if [[ "${MAX_AGE_DAYS}" -gt 0 && "${S3_ALLOW_RETENTION_DELETE:-0}" == "1" ]]; then
     log "retencion: se borran del bucket los respaldos con mas de ${MAX_AGE_DAYS} dias"
     rclone delete "${DEST}" --config "${CONFIG}" --max-age "${MAX_AGE_DAYS}d" --log-level INFO
+elif [[ "${MAX_AGE_DAYS}" -gt 0 ]]; then
+    log "retencion desactivada (usa las reglas de ciclo de vida de R2 para expirar objetos)"
 fi
 
 log "subida completada correctamente"

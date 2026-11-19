@@ -142,7 +142,8 @@ services:
 | `S3_SECRET_ACCESS_KEY` | - | Secret key |
 | `S3_REGION` | `auto` | Region |
 | `S3_PROVIDER` | `Other` | `Cloudflare`, `AWS` u `Other` |
-| `S3_MAX_AGE_DAYS` | `0` | Dias de retencion en el bucket (0 = sin retencion) |
+| `S3_MAX_AGE_DAYS` | `0` | Dias de retencion (0 = sin retencion). **OJO:** el borrado automatico esta desactivado a proposito; usa las reglas de ciclo de vida de R2 |
+| `S3_ALLOW_RETENTION_DELETE` | `0` | Poner a `1` para que el script borre los objetos con mas de `S3_MAX_AGE_DAYS` (peligroso: algunos backends S3 no reportan la fecha y se borra de mas) |
 | `RCLONE_CONFIG` | `/etc/rclone/rclone.conf` | Configuracion rclone existente (tiene prioridad) |
 | `UPLOAD_CRON_TIME` | `0 */2 * * *` | Cada cuanto se sube lo que hay en `/backups` |
 | `UPLOAD_AFTER_BACKUP` | `1` | Subir justo despues de cada backup |
@@ -153,6 +154,12 @@ services:
 >
 > Si defines `S3_BUCKET` (o montas un `rclone.conf`) la subida queda
 > automatizada: se ejecuta al final de cada backup y ademas de forma periodica.
+>
+> **Retencion**: configura una regla de ciclo de vida en el bucket
+> (`Cloudflare > R2 > respaldos > Settings > Object lifecycle > Expire objects
+> after N days`). Es mas fiable que borrar desde el script, porque algunos
+> backends S3 no devuelven la fecha de modificacion y el borrado por edad
+> puede acabar eliminando respaldos recien subidos.
 
 ## Ejemplos de configuración
 
