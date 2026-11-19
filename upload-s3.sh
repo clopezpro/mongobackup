@@ -105,8 +105,6 @@ rclone copy "${BACKUP_DIRECTORY}" "${DEST}" \
     --transfers 2 \
     --checksum \
     --include "*.tar.gz" \
-    --exclude "*" \
-    --exclude "cron.log" \
     --exclude "upload-s3.log" \
     --stats 30s \
     --log-level INFO
